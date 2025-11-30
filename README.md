@@ -33,8 +33,22 @@ cd dot-devx
 
 ## Dependencies
 
-Installed automatically by `install.sh`:
+All dependencies are installed automatically by `install.sh`:
+
+### CLI Tools
 - zoxide, fzf, fd, bat, direnv, tmux, starship, git
+
+### Fonts (Nerd Fonts)
+Required for proper icon rendering in terminal and Starship prompt:
+- **MesloLGS NF** (primary - configured in iTerm2 profile)
+- Hack Nerd Font
+- JetBrains Mono Nerd Font
+
+### Oh-My-Zsh Plugins
+Custom plugins installed to `~/.oh-my-zsh/custom/plugins/`:
+- `zsh-autosuggestions` - Fish-like command suggestions
+- `zsh-completions` - Additional completion scripts
+- `zsh-syntax-highlighting` - Real-time syntax highlighting
 
 ## Manual Steps
 

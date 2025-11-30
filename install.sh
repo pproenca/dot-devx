@@ -29,6 +29,60 @@ install_deps() {
     brew install zoxide fzf fd bat direnv tmux starship git
 }
 
+# Install Nerd Fonts (required for iTerm2 profile and Starship)
+install_fonts() {
+    echo ""
+    echo "=== Installing Fonts ==="
+
+    # Install Nerd Fonts via Homebrew cask
+    brew tap homebrew/cask-fonts 2>/dev/null || true
+    brew install --cask font-meslo-lg-nerd-font
+    brew install --cask font-hack-nerd-font
+    brew install --cask font-jetbrains-mono-nerd-font
+
+    echo "Installed Nerd Fonts (MesloLGS NF, Hack, JetBrains Mono)"
+    echo "Note: You may need to restart iTerm2 and select the font"
+}
+
+# Install Oh-My-Zsh and custom plugins
+setup_omz() {
+    echo ""
+    echo "=== Oh-My-Zsh Setup ==="
+
+    # Install Oh-My-Zsh if not present
+    if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+        echo "Installing Oh-My-Zsh..."
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    else
+        echo "Oh-My-Zsh already installed"
+    fi
+
+    # Install custom plugins
+    local plugins_dir="$HOME/.oh-my-zsh/custom/plugins"
+    mkdir -p "$plugins_dir"
+
+    if [[ ! -d "$plugins_dir/zsh-autosuggestions" ]]; then
+        git clone https://github.com/zsh-users/zsh-autosuggestions "$plugins_dir/zsh-autosuggestions"
+        echo "Installed: zsh-autosuggestions"
+    else
+        echo "zsh-autosuggestions already installed"
+    fi
+
+    if [[ ! -d "$plugins_dir/zsh-completions" ]]; then
+        git clone https://github.com/zsh-users/zsh-completions "$plugins_dir/zsh-completions"
+        echo "Installed: zsh-completions"
+    else
+        echo "zsh-completions already installed"
+    fi
+
+    if [[ ! -d "$plugins_dir/zsh-syntax-highlighting" ]]; then
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting "$plugins_dir/zsh-syntax-highlighting"
+        echo "Installed: zsh-syntax-highlighting"
+    else
+        echo "zsh-syntax-highlighting already installed"
+    fi
+}
+
 # Setup git config with prompts
 setup_git() {
     echo ""
@@ -134,6 +188,8 @@ setup_iterm() {
 # Main
 main() {
     install_deps
+    install_fonts
+    setup_omz
     setup_git
     setup_shell
     setup_tmux

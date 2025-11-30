@@ -1,0 +1,22 @@
+#!/bin/bash
+# tmux-project: Create or attach to a project-specific tmux session
+
+PROJECT_NAME="$1"
+PROJECTS_DIR="$HOME/Documents/Projects"
+PROJECT_PATH="$PROJECTS_DIR/$PROJECT_NAME"
+SESSION_NAME="${PROJECT_NAME//\./_}"
+
+[[ -z "$PROJECT_NAME" ]] && echo "Usage: tmux-project <name>" && exit 1
+[[ ! -d "$PROJECT_PATH" ]] && echo "Not found: $PROJECT_PATH" && exit 1
+
+if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+  # Create new session with standard layout
+  tmux new-session -d -s "$SESSION_NAME" -c "$PROJECT_PATH"
+  tmux rename-window -t "$SESSION_NAME:1" "editor"
+  tmux new-window -t "$SESSION_NAME" -n "term" -c "$PROJECT_PATH"
+  tmux new-window -t "$SESSION_NAME" -n "git" -c "$PROJECT_PATH"
+  tmux select-window -t "$SESSION_NAME:1"
+fi
+
+# Attach or switch to session
+[[ -z "$TMUX" ]] && tmux attach -t "$SESSION_NAME" || tmux switch-client -t "$SESSION_NAME"

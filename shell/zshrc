@@ -208,7 +208,6 @@ _project_status() {
   fi
   [[ -f "pyproject.toml" ]] && echo "Python: $(python --version 2>/dev/null)"
   [[ -f "package.json" ]] && echo "Node: $(node --version 2>/dev/null)"
-  [[ -f ".envrc" ]] && echo "direnv: enabled"
   [[ -f "CLAUDE.md" ]] && echo "CLAUDE.md: present" || echo "CLAUDE.md: MISSING"
   echo ""
 }
@@ -254,30 +253,3 @@ claude-edit() {
   [[ -f "CLAUDE.md" ]] && ${EDITOR:-code} CLAUDE.md || echo "No CLAUDE.md found"
 }
 
-# -----------------------------------------------------------------------------
-# DIRENV HELPERS
-# -----------------------------------------------------------------------------
-
-# envrc-init - Auto-create .envrc based on project type
-envrc-init() {
-  [[ -f ".envrc" ]] && echo ".envrc already exists" && return 1
-  local tpl="$HOME/.config/direnv/templates"
-
-  if [[ -f "pyproject.toml" ]]; then
-    cp "$tpl/python.envrc" .envrc
-  elif [[ -f "next.config.js" ]] || [[ -f "next.config.ts" ]] || [[ -f "next.config.mjs" ]]; then
-    cp "$tpl/nextjs.envrc" .envrc
-  elif [[ -f "package.json" ]]; then
-    cp "$tpl/node.envrc" .envrc
-  else
-    echo "dotenv_if_exists" > .envrc
-  fi
-
-  direnv allow .
-  echo "Created .envrc"
-}
-
-# -----------------------------------------------------------------------------
-# DIRENV - Must be last in .zshrc
-# -----------------------------------------------------------------------------
-eval "$(direnv hook zsh)"

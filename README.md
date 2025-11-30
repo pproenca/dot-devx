@@ -15,7 +15,6 @@ cd dot-devx
 - **Shell**: Zsh with Oh-My-Zsh, Starship prompt, productivity functions
 - **tmux**: Session management with auto-save/restore
 - **Git**: Template config with SSH signing support
-- **direnv**: Auto-environment loading for Python/Node projects
 - **Claude Code**: CLAUDE.md templates for project context
 - **iTerm2**: Exportable profiles
 
@@ -27,7 +26,6 @@ cd dot-devx
 | `pjr` | Jump to recent project |
 | `tp` | Create/attach tmux project session |
 | `claude-init` | Create CLAUDE.md from template |
-| `envrc-init` | Create .envrc for auto-env |
 | `Ctrl-R` | fzf history search |
 | `Ctrl-T` | fzf file finder |
 
@@ -36,7 +34,7 @@ cd dot-devx
 All dependencies are installed automatically by `install.sh`:
 
 ### CLI Tools
-- zoxide, fzf, fd, bat, direnv, tmux, starship, git
+- zoxide, fzf, fd, bat, tmux, starship, git
 
 ### Fonts (Nerd Fonts)
 Required for proper icon rendering in terminal and Starship prompt:
@@ -65,7 +63,6 @@ dot-devx/
 ├── tmux/tmux.conf       # tmux configuration
 ├── git/gitconfig.template
 ├── config/
-│   ├── direnv/          # Auto-environment templates
 │   └── claude-templates/ # CLAUDE.md templates
 ├── bin/                 # Helper scripts
 └── iterm2/              # iTerm2 profiles (export manually)

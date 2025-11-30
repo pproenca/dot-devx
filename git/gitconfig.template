@@ -1,0 +1,15 @@
+[user]
+    name = {{GIT_USER}}
+    email = {{GIT_EMAIL}}
+
+[init]
+    defaultBranch = master
+
+[alias]
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+[credential]
+    helper = /usr/local/share/gcm-core/git-credential-manager
+
+[credential "https://dev.azure.com"]
+    useHttpPath = true

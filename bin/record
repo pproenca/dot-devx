@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Configuration
+OUTPUT_DIR="$HOME/MeetingRecordings"
+
+# Create output directory
+mkdir -p "$OUTPUT_DIR"
+
+# Generate timestamped filename
+FILENAME="$OUTPUT_DIR/meeting_$(date +%Y%m%d_%H%M%S).wav"
+
+# Check for required tools
+command -v sox >/dev/null 2>&1 || {
+    echo "Installing SoX (install Homebrew first if needed)..."
+    brew install sox
+}
+
+# Record audio
+echo "Press Ctrl+C to stop recording..."
+sox -d "$FILENAME"
+
+echo "Saved recording: $FILENAME"

@@ -1,0 +1,283 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME=""  # Using Starship instead
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  zsh-completions
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+
+# Docker CLI completions (must be before compinit/oh-my-zsh)
+fpath=($HOME/.docker/completions $fpath)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# History settings
+HISTSIZE=50000
+SAVEHIST=50000
+setopt HIST_IGNORE_ALL_DUPS  # Don't save duplicates
+setopt HIST_FIND_NO_DUPS     # Don't show duplicates in search
+setopt SHARE_HISTORY         # Share history between sessions
+setopt INC_APPEND_HISTORY    # Add commands immediately
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Editor
+export EDITOR='code --wait'
+export VISUAL="$EDITOR"
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+
+# PATH configuration
+export PATH="$HOME/.local/bin:$PATH"
+
+# NVM (Node Version Manager) - managed via brew
+export NVM_DIR="$(brew --prefix nvm)"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/etc/bash_completion.d/nvm" ] && \. "$NVM_DIR/etc/bash_completion.d/nvm"
+
+# UV (Python version manager) - managed via brew
+# Completions installed by brew to /opt/homebrew/share/zsh/site-functions
+# Python tools installed to ~/.local/bin (already in PATH above)
+
+if command -v ngrok &>/dev/null; then
+  eval "$(ngrok completion)"
+fi
+
+eval "$(starship init zsh)"
+
+# zsh-syntax-highlighting loaded via oh-my-zsh plugin
+
+# Added by Antigravity
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+
+# =============================================================================
+# DEVELOPER PRODUCTIVITY ENHANCEMENTS
+# Added: 2025-11-30
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# ZOXIDE - Smart Directory Navigation
+# -----------------------------------------------------------------------------
+eval "$(zoxide init zsh)"
+
+# -----------------------------------------------------------------------------
+# FZF - Fuzzy Finder
+# -----------------------------------------------------------------------------
+source <(fzf --zsh)
+
+export FZF_DEFAULT_OPTS='
+  --height=50%
+  --layout=reverse
+  --border=rounded
+  --info=inline
+  --preview-window=right:60%:wrap
+'
+
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+export FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always --line-range :300 {}'"
+export FZF_ALT_C_OPTS="--preview 'ls -la {}'"
+
+# -----------------------------------------------------------------------------
+# PROJECT NAVIGATION
+# -----------------------------------------------------------------------------
+export PROJECTS_DIR="$HOME/Documents/Projects"
+
+# pj - Jump to project with fuzzy search + CLAUDE.md preview
+pj() {
+  local project_dir
+  project_dir=$(
+    fd --type d --max-depth 1 . "$PROJECTS_DIR" 2>/dev/null | \
+    sed "s|$PROJECTS_DIR/||" | \
+    fzf --prompt="Project: " \
+        --preview "ls -la '$PROJECTS_DIR/{}' && echo '---' && (cat '$PROJECTS_DIR/{}/CLAUDE.md' 2>/dev/null | head -30 || echo 'No CLAUDE.md')"
+  )
+
+  if [[ -n "$project_dir" ]]; then
+    z "$PROJECTS_DIR/$project_dir"
+    _project_status
+  fi
+}
+
+# pjr - Recent projects based on zoxide frecency
+pjr() {
+  local project_dir
+  project_dir=$(
+    zoxide query -l "$PROJECTS_DIR" 2>/dev/null | head -20 | \
+    sed "s|$PROJECTS_DIR/||" | \
+    fzf --prompt="Recent: "
+  )
+  [[ -n "$project_dir" ]] && z "$PROJECTS_DIR/$project_dir" && _project_status
+}
+
+# Project status on arrival
+_project_status() {
+  echo ""
+  echo "===== $(basename $PWD) ====="
+  if git rev-parse --is-inside-work-tree &>/dev/null; then
+    echo "Branch: $(git branch --show-current) | Changes: $(git status --porcelain | wc -l | tr -d ' ')"
+  fi
+  [[ -f "pyproject.toml" ]] && echo "Python: $(python --version 2>/dev/null)"
+  [[ -f "package.json" ]] && echo "Node: $(node --version 2>/dev/null)"
+  [[ -f ".envrc" ]] && echo "direnv: enabled"
+  [[ -f "CLAUDE.md" ]] && echo "CLAUDE.md: present" || echo "CLAUDE.md: MISSING"
+  echo ""
+}
+
+# -----------------------------------------------------------------------------
+# TMUX INTEGRATION
+# -----------------------------------------------------------------------------
+
+# tp - Quick project session (create or attach)
+tp() {
+  local project="${1:-$(ls $PROJECTS_DIR | fzf --prompt='Session: ')}"
+  [[ -n "$project" ]] && tmux-project "$project"
+}
+
+alias tl='tmux list-sessions 2>/dev/null || echo "No sessions"'
+alias ta='tmux attach-session -t'
+alias tk='tmux kill-session -t'
+
+# -----------------------------------------------------------------------------
+# CLAUDE.MD MANAGEMENT
+# -----------------------------------------------------------------------------
+
+# claude-init - Create CLAUDE.md from template
+claude-init() {
+  [[ -f "CLAUDE.md" ]] && echo "CLAUDE.md already exists" && return 1
+  local tpl="$HOME/.config/claude-templates"
+  local type="${1:-base}"
+
+  # Auto-detect if not specified
+  if [[ "$type" == "base" ]]; then
+    [[ -f "pyproject.toml" ]] && type="python"
+    [[ -f "next.config.js" || -f "next.config.ts" || -f "next.config.mjs" ]] && type="nextjs"
+  fi
+
+  cp "$tpl/$type.md" CLAUDE.md 2>/dev/null || cp "$tpl/base.md" CLAUDE.md
+  sed -i '' "s/\[Description\]/$(basename $PWD)/" CLAUDE.md
+  echo "Created CLAUDE.md ($type template)"
+  ${EDITOR:-code} CLAUDE.md
+}
+
+# claude-edit - Open CLAUDE.md in editor
+claude-edit() {
+  [[ -f "CLAUDE.md" ]] && ${EDITOR:-code} CLAUDE.md || echo "No CLAUDE.md found"
+}
+
+# -----------------------------------------------------------------------------
+# DIRENV HELPERS
+# -----------------------------------------------------------------------------
+
+# envrc-init - Auto-create .envrc based on project type
+envrc-init() {
+  [[ -f ".envrc" ]] && echo ".envrc already exists" && return 1
+  local tpl="$HOME/.config/direnv/templates"
+
+  if [[ -f "pyproject.toml" ]]; then
+    cp "$tpl/python.envrc" .envrc
+  elif [[ -f "next.config.js" ]] || [[ -f "next.config.ts" ]] || [[ -f "next.config.mjs" ]]; then
+    cp "$tpl/nextjs.envrc" .envrc
+  elif [[ -f "package.json" ]]; then
+    cp "$tpl/node.envrc" .envrc
+  else
+    echo "dotenv_if_exists" > .envrc
+  fi
+
+  direnv allow .
+  echo "Created .envrc"
+}
+
+# -----------------------------------------------------------------------------
+# DIRENV - Must be last in .zshrc
+# -----------------------------------------------------------------------------
+eval "$(direnv hook zsh)"

@@ -1,0 +1,18 @@
+# Machine-specific
+*.local
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Secrets (should never be committed)
+*secret*
+*token*
+*credential*
